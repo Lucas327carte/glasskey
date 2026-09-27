@@ -45,7 +45,7 @@ export default function AuthClient({ initialMode }: { initialMode: Mode }) {
         body: { username: username.trim().toLowerCase(), pin },
       });
       success.fire(() => {
-        void router.replace("/drives").catch(() => undefined);
+        void router.replace("/drives");
       });
     } catch (e) {
       fail(e instanceof Error ? e.message : "Erreur réseau");

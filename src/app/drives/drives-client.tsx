@@ -168,7 +168,7 @@ export default function DrivesClient({ username }: { username: string }) {
       const target = `/drive/${sheet.drive.id}`;
       setSheet(null);
       success.fire(() => {
-      void router.push(target).catch(() => undefined);
+      void router.push(target);
     });
     } catch (e) {
       fail(e instanceof Error ? e.message : "Code incorrect");

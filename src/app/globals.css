@@ -281,6 +281,22 @@ body {
   animation: floaty 6s ease-in-out infinite;
 }
 
+.voice-bar {
+  display: block;
+  width: 3px;
+  height: calc(8px + (var(--i) % 6) * 4px);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8b5cf6, #3b82f6);
+  animation: voiceWave 0.75s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.06s);
+}
+@keyframes voiceWave {
+  to { transform: scaleY(0.38); opacity: 0.55; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
 @keyframes shakeX {
   10%, 90% { transform: translateX(-2px); }
   20%, 80% { transform: translateX(4px); }
