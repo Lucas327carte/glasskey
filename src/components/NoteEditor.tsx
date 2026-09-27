@@ -205,18 +205,23 @@ export default function NoteEditor({
   useEffect(() => {
     if (!node) return;
     let alive = true;
-    fetch(`/api/files/${node.id}`)
-      .then((r) => (r.ok ? r.text() : Promise.reject()))
-      .then((t) => {
+
+    const loadDocument = async () => {
+      try {
+        const response = await fetch(`/api/files/${node.id}`);
+        if (!response.ok) throw new Error("Document unavailable");
+        const text = await response.text();
         if (!alive) return;
-        setContent(t);
-        setLoaded(true);
-      })
-      .catch(() => {
+        setContent(text);
+      } catch {
         if (!alive) return;
         setError("Impossible de charger le document.");
-        setLoaded(true);
-      });
+      } finally {
+        if (alive) setLoaded(true);
+      }
+    };
+
+    void loadDocument();
     return () => {
       alive = false;
     };
