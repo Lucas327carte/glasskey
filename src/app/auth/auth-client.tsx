@@ -44,7 +44,7 @@ export default function AuthClient({ initialMode }: { initialMode: Mode }) {
       await api(`/api/auth/${mode}`, {
         body: { username: username.trim().toLowerCase(), pin },
       });
-      success.fire(() => router.replace("/drives"));
+      success.fire(() => router.replace("/home"));
     } catch (e) {
       fail(e instanceof Error ? e.message : "Erreur réseau");
     } finally {

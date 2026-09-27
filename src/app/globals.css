@@ -490,3 +490,262 @@ body {
   font-weight: 650;
   margin: 0.3em 0 0.15em;
 }
+
+/* ---------------- dashboard tiles ---------------- */
+.module-tile {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.module-tile:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+.module-tile:active {
+  transform: scale(0.96);
+}
+
+/* ---------------- dynamic island ---------------- */
+.island {
+  position: fixed;
+  top: max(0.6rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 120;
+  border-radius: 9999px;
+  background: #050810;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: width 0.5s cubic-bezier(0.32, 1.4, 0.5, 1), height 0.5s cubic-bezier(0.32, 1.4, 0.5, 1), border-radius 0.5s ease, background 0.4s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+.island-idle {
+  width: 7rem;
+  height: 2.1rem;
+}
+.island-active {
+  width: 16rem;
+  height: 2.6rem;
+  background: linear-gradient(135deg, #1a1040, #0a0a25, #1e0a38);
+}
+.island-expanded {
+  width: min(92vw, 30rem);
+  height: auto;
+  min-height: 3.5rem;
+  border-radius: 1.8rem;
+  background: linear-gradient(135deg, #1a1040, #0a0a25, #1e0a38);
+}
+@media (min-width: 768px) {
+  .island-idle { width: 9rem; }
+  .island-active { width: 20rem; }
+  .island-expanded { width: min(90vw, 36rem); }
+}
+
+.island-aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.island-active .island-aurora,
+.island-expanded .island-aurora {
+  opacity: 1;
+}
+.island-aurora::before,
+.island-aurora::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(12px);
+}
+.island-aurora::before {
+  width: 60%;
+  height: 200%;
+  left: -10%;
+  top: -50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.6), transparent 70%);
+  animation: islandAurora1 4s ease-in-out infinite alternate;
+}
+.island-aurora::after {
+  width: 50%;
+  height: 200%;
+  right: -5%;
+  top: -50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.5), transparent 70%);
+  animation: islandAurora2 5s ease-in-out infinite alternate;
+}
+@keyframes islandAurora1 {
+  to { transform: translateX(30%) rotate(15deg); }
+}
+@keyframes islandAurora2 {
+  to { transform: translateX(-20%) rotate(-10deg); }
+}
+
+.island-progress {
+  position: absolute;
+  bottom: 3px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.island-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #818cf8, #c084fc, #38bdf8);
+  transition: width 0.4s ease;
+}
+
+@keyframes bloop {
+  0% { transform: translateX(-50%) scale(1); }
+  40% { transform: translateX(-50%) scale(1.15); }
+  100% { transform: translateX(-50%) scale(0.3); opacity: 0; }
+}
+.bloop {
+  animation: bloop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ---------------- sidebar ---------------- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  z-index: 100;
+  transition: width 0.4s cubic-bezier(0.32, 1.4, 0.5, 1);
+}
+.sidebar-collapsed {
+  width: 4rem;
+}
+.sidebar-expanded {
+  width: 75%;
+  max-width: 20rem;
+}
+@media (min-width: 768px) {
+  .sidebar-collapsed { width: 4.5rem; }
+  .sidebar-expanded { width: 20rem; }
+}
+
+.sidebar-rail {
+  width: 4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border-right: 1px solid var(--line);
+}
+@media (min-width: 768px) {
+  .sidebar-rail { width: 4.5rem; }
+}
+
+.sidebar-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.32, 1.4, 0.5, 1);
+}
+.sidebar-expanded .sidebar-panel {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.sidebar-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------------- chat ---------------- */
+.chat-bubble-user {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-radius: 1.4rem 1.4rem 0.4rem 1.4rem;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+}
+.chat-bubble-ai {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 1.4rem 1.4rem 1.4rem 0.4rem;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.chat-input-bar {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.chat-input-bar:focus-within {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.send-btn-inactive {
+  background: rgba(15, 23, 42, 0.12);
+  color: rgba(15, 23, 42, 0.3);
+}
+.send-btn-active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #0b1220;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* voice wave bars */
+.wave-bar {
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3b82f6, #818cf8);
+  animation: waveBar 0.8s ease-in-out infinite alternate;
+}
+@keyframes waveBar {
+  from { height: 6px; }
+  to { height: 28px; }
+}
+
+/* liquid bubble send animation */
+@keyframes bubbleFly {
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  60% { opacity: 0.8; transform: translate(40vw, -10vh) scale(0.6); }
+  100% { opacity: 0; transform: translate(50vw, -15vh) scale(0.2); }
+}
+.bubble-fly {
+  animation: bubbleFly 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* star icon glow */
+.star-glow {
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+  animation: starPulse 2s ease-in-out infinite;
+}
+@keyframes starPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.5)); }
+  50% { filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.8)); }
+}
+
+/* fade slide for chat messages */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.msg-in {
+  animation: msgIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}

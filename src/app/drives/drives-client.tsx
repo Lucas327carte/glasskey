@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  Home,
   KeyRound,
   Loader2,
   LogOut,
@@ -247,6 +248,9 @@ export default function DrivesClient({ username }: { username: string }) {
             <h1 className="truncate text-2xl font-bold tracking-tight">Mes clés virtuelles</h1>
           </div>
           <DensityButton density={density} onChange={setDensity} />
+          <button onClick={() => router.push("/home")} className="icon-btn" aria-label="Accueil" title="Accueil">
+            <Home size={17} />
+          </button>
           <button onClick={logout} className="icon-btn" aria-label="Se déconnecter" title="Se déconnecter">
             <LogOut size={17} />
           </button>
