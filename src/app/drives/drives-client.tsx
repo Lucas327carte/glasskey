@@ -167,7 +167,9 @@ export default function DrivesClient({ username }: { username: string }) {
       await api(`/api/drives/${sheet.drive.id}/unlock`, { body: { code } });
       const target = `/drive/${sheet.drive.id}`;
       setSheet(null);
-      success.fire(() => router.push(target));
+      success.fire(() => {
+      void router.push(target).catch(() => undefined);
+    });
     } catch (e) {
       fail(e instanceof Error ? e.message : "Code incorrect");
     } finally {
