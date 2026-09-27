@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bell, BookOpen, Check, FileText, FolderKanban, Image as ImageIcon, Library,
   Mic, MoreHorizontal, Plus, Search, Send, Settings, Sparkles, Square, StickyNote,
@@ -34,7 +34,11 @@ export default function JarvisDashboard() {
     { title: "Relire le chapitre 4", time: "Aujourd'hui · 17:30", done: false },
     { title: "Devoir de mathématiques", time: "Demain · 18:00", done: false },
   ]);
-  const greeting = useMemo(() => new Date().getHours() < 18 ? "Bon après-midi" : "Bonsoir", []);
+  const [greeting, setGreeting] = useState("Bonjour");
+
+  useEffect(() => {
+    setGreeting(new Date().getHours() < 18 ? "Bon après-midi" : "Bonsoir");
+  }, []);
 
   const send = () => {
     const value = message.trim();
